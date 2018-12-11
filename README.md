@@ -14,3 +14,32 @@ Directory must have write permissions. This is the output direcotry, where all c
   * `domain.key` Domain private key
   * `domain.pem` Domain bundle of all: key, certificate and CA chain
   * `chain.crt` Domain bundle of certificates: certificate and CA chain
+
+## Compose sample
+```
+version: "3.3"
+services:
+  traefik:
+    image: traefik:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik-acme:/etc/traefik/acme    
+  traefik-dumpcerts:
+    image: skorpils/traefik-dumpcerts
+    restart: always
+    volumes:
+      - traefik-acme:/etc/ssl/acme/src:ro
+      - /etc/ssl/acme:/etc/ssl/acme/dst
+    depends_on:
+      - traefik
+volumes:
+  - traefik-acme
+networks:
+  - proxy
+```
