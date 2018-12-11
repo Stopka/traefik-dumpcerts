@@ -8,9 +8,9 @@ Here should be the `acme.json` file mounted, so that the final path of the file 
 
 ### /etc/ssl/acme/dst
 Directory must have write permissions. This is the output direcotry, where all certificates are exported in following structure:
-* _domain.name_
+* _some.domain.name_
   * `ca.crt` CA certificate chain
   * `domain.crt` Domain certificate
   * `domain.key` Domain private key
   * `domain.pem` Domain bundle of all: key, certificate and CA chain
-  * `chainn.crt` Domain bundle of certificates: certificate and CA chain
+  * `chain.crt` Domain bundle of certificates: certificate and CA chain
