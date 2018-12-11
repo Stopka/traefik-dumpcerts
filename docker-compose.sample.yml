@@ -1,0 +1,25 @@
+version: "3.3"
+services:
+  traefik:
+    image: traefik:latest
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik-acme:/etc/traefik/acme    
+  traefik-dumpcerts:
+    image: skorpils/traefik-dumpcerts
+    restart: always
+    volumes:
+      - traefik-acme:/etc/ssl/acme/src:ro
+      - /etc/ssl/acme:/etc/ssl/acme/dst
+    depends_on:
+      - traefik
+volumes:
+  - traefik-acme
+networks:
+  - proxy
