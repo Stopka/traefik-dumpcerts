@@ -1,8 +1,7 @@
 FROM ubuntu:latest
 
-ADD ./docker/dumpcerts/rundump.sh /usr/sbin/
-ADD ./docker/dumpcerts/dumpcerts.sh /usr/sbin/
-ADD ./docker/cron/dumpcerts /etc/cron.d/
+ADD ./docker/extract/extract.php /usr/sbin/
+ADD ./docker/cron/extract /etc/cron.d/
 ADD ./docker/supervisor/supervisord.conf /etc/
 ADD ./docker/supervisor/services /etc/supervisord.d/
 
@@ -10,11 +9,11 @@ ADD ./docker/supervisor/services /etc/supervisord.d/
 RUN apt-get update && \
   apt-get -y dist-upgrade && \
   apt-get install -y --no-install-recommends \ 
-	openssl \
-    jq \
-	cron \ 
+	cron \
+	php-cli \
+	php-json  \
     supervisor && \
-    chmod +x /usr/sbin/dumpcerts.sh /usr/sbin/rundump.sh && \
+    chmod +x /usr/sbin/extract.php && \
     apt-get clean -y && \
     apt-get autoclean -y && \
     apt-get autoremove -y && \
